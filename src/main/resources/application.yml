@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    # Supabase: vào Project Settings > Database > Connection string (JDBC)
+    # Thay [PASSWORD] và [PROJECT-REF] bằng thông tin của bạn
+    url: jdbc:postgresql://db.[PROJECT-REF].supabase.co:5432/postgres
+    username: postgres
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+    hikari:
+      maximum-pool-size: 5          # Supabase free tier giới hạn connection
+      minimum-idle: 2
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate            # KHÔNG để create/update — DB đã có từ SQL script
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  jackson:
+    default-property-inclusion: non_null   # Bỏ null fields khỏi JSON response
+
+app:
+  jwt:
+    secret: ${JWT_SECRET}           # Tối thiểu 256-bit, đặt trong .env
+    expiration-ms: 86400000         # 1 ngày (ms)
+    refresh-expiration-ms: 604800000 # 7 ngày
+
+  cors:
+    allowed-origins: "http://localhost:5173"  # Vite dev server
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.musicapp: DEBUG
+    org.springframework.security: INFO
