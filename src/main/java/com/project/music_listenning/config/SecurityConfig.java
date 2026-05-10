@@ -66,6 +66,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/songs/**", "/api/albums/**", "/api/artists/**")
                         .hasRole("ADMIN")
 
+                        .requestMatchers("/api/upload/**").authenticated() // đã đăng nhập mới được gọi
+
                         // Còn lại yêu cầu đăng nhập
                         .anyRequest().authenticated()
                 )

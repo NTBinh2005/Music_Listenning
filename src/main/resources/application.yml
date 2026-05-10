@@ -2,9 +2,9 @@ spring:
   datasource:
     # Supabase: vào Project Settings > Database > Connection string (JDBC)
     # Thay [PASSWORD] và [PROJECT-REF] bằng thông tin của bạn
-    url: jdbc:postgresql://db.[PROJECT-REF].supabase.co:5432/postgres
+    url: jdbc:postgresql://db.ihovvwprxsydnjgtvcuh.supabase.co:5432/postgres
     username: postgres
-    password: ${DB_PASSWORD}
+    password: ${DB_PASSWORD:MusicListenning12345}
     driver-class-name: org.postgresql.Driver
 
     hikari:
@@ -24,9 +24,14 @@ spring:
   jackson:
     default-property-inclusion: non_null   # Bỏ null fields khỏi JSON response
 
+  servlet:
+    multipart:
+      max-file-size: 50MB       # Giới hạn file audio
+      max-request-size: 55MB
+
 app:
   jwt:
-    secret: ${JWT_SECRET}           # Tối thiểu 256-bit, đặt trong .env
+    secret: ${JWT_SECRET:K7gNU3sdo+OL0wNhqoVWhr3g6s1xYv72ol/pe/Unols=}           # Tối thiểu 256-bit, đặt trong .env
     expiration-ms: 86400000         # 1 ngày (ms)
     refresh-expiration-ms: 604800000 # 7 ngày
 
@@ -40,3 +45,10 @@ logging:
   level:
     com.musicapp: DEBUG
     org.springframework.security: INFO
+# Thêm vào application.yml
+# Lấy 3 giá trị này từ: cloudinary.com → Dashboard → API Keys
+
+cloudinary:
+  cloud-name: ${CLOUDINARY_CLOUD_NAME:duh0ib5rl}
+  api-key: ${CLOUDINARY_API_KEY:999641314264513}
+  api-secret: ${CLOUDINARY_API_SECRET:Qwy7YsROEDKVxZLzBNY1-y1vQaM}

@@ -30,4 +30,12 @@ public interface SongRepository extends JpaRepository<Song, UUID> {
         ORDER BY play_count DESC
         """, nativeQuery = true)
     Page<Song> searchByTitle(@Param("keyword") String keyword, Pageable pageable);
+
+    // Kiểm tra bài đã tồn tại chưa — tránh import trùng
+
+
+    // Vì Song không có field artistName trực tiếp, dùng JPQL query:
+    @Query("SELECT COUNT(s) > 0 FROM Song s WHERE s.title = :title AND s.artist.name = :artistName")
+    boolean existsByTitleAndArtistName(@Param("title") String title,
+                                       @Param("artistName") String artistName);
 }
