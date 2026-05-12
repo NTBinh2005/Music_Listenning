@@ -66,7 +66,14 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/songs/**", "/api/albums/**", "/api/artists/**")
                         .hasRole("ADMIN")
 
-                        .requestMatchers("/api/upload/**").authenticated() // đã đăng nhập mới được gọi
+                        // đã đăng nhập mới được gọi
+                        .requestMatchers("/api/upload/**").authenticated()
+                        // Playlist — yêu cầu đăng nhập
+                        .requestMatchers("/api/playlists/**").authenticated()
+                        // Like — yêu cầu đăng nhập
+                        .requestMatchers(HttpMethod.POST,   "/api/songs/*/like").authenticated()
+                        .requestMatchers(HttpMethod.GET,    "/api/songs/liked").authenticated()
+                        .requestMatchers(HttpMethod.GET,    "/api/songs/*/liked").authenticated()
 
                         // Còn lại yêu cầu đăng nhập
                         .anyRequest().authenticated()

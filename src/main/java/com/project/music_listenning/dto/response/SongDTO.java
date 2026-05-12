@@ -13,6 +13,7 @@ public class SongDTO {
             UUID id,
             String title,
             String coverUrl,
+            String audioUrl,
             int durationSeconds,
             long playCount,
             boolean isPremium,
@@ -29,6 +30,7 @@ public class SongDTO {
                     song.getTitle(),
                     song.getCoverUrl() != null ? song.getCoverUrl()
                             : (song.getAlbum() != null ? song.getAlbum().getCoverUrl() : null),
+                    song.getAudioUrl(),
                     song.getDurationSeconds(),
                     song.getPlayCount(),
                     song.isPremium(),
