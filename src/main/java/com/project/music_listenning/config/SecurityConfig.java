@@ -57,6 +57,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/songs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/artists/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/albums/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/search/**").permitAll()
 
                         // Chỉ ADMIN mới tạo/xóa/sửa nội dung
                         .requestMatchers(HttpMethod.POST, "/api/songs/**", "/api/albums/**", "/api/artists/**")
@@ -74,6 +75,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,   "/api/songs/*/like").authenticated()
                         .requestMatchers(HttpMethod.GET,    "/api/songs/liked").authenticated()
                         .requestMatchers(HttpMethod.GET,    "/api/songs/*/liked").authenticated()
+                        // History — yêu cầu đăng nhập
+                        .requestMatchers("/api/history/**").authenticated()
 
                         // Còn lại yêu cầu đăng nhập
                         .anyRequest().authenticated()
