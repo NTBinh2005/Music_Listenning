@@ -1,5 +1,6 @@
 package com.project.music_listenning.Service.Impl;
 
+
 import com.project.music_listenning.Entity.*;
 import com.project.music_listenning.Repository.LikedSongRepository;
 import com.project.music_listenning.Repository.PlayListRepository;
@@ -204,7 +205,14 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     private User getCurrentUser() {
-        return (User) SecurityContextHolder.getContext()
+        Object principal = SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
+
+        if (principal instanceof User user) {
+            return user;
+        }
+
+        // Nếu principal là String (anonymous) → throw
+        throw new IllegalStateException("User chưa đăng nhập");
     }
 }

@@ -44,6 +44,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if (token != null && jwtUtil.validateToken(token)) {
             String username = jwtUtil.extractUsername(token);
+            log.debug("Token subject: '{}'", username);
 
             // Chỉ set Authentication nếu SecurityContext chưa có
             if (SecurityContextHolder.getContext().getAuthentication() == null) {

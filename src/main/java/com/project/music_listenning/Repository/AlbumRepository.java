@@ -13,8 +13,8 @@ import java.util.UUID;
 
 @Repository
 public interface AlbumRepository extends JpaRepository<Album, UUID> {
-    Optional<Album> findByTitleIgnoreCaseAndArtistId(String title, UUID artistId);
-    Optional<Album> findByArtistIdOrderByReleaseDateDesc(UUID artistId);
+    List<Album> findByTitleIgnoreCaseAndArtistId(String title, UUID artistId);
+    List<Album> findByArtistIdOrderByReleaseDateDesc(UUID artistId);
     // Search albums theo title hoặc artist name
     @Query("""
     SELECT a FROM Album a

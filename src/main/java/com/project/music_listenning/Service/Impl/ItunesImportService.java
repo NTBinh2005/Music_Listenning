@@ -136,16 +136,18 @@ public class ItunesImportService {
     }
 
     private Album upsertAlbum(ItunesTrack track, Artist artist) {
-        return albumRepository
-                .findByTitleIgnoreCaseAndArtistId(track.collectionName(), artist.getId())
-                .orElseGet(() -> {
-                    Album newAlbum = Album.builder()
-                            .title(track.collectionName())
-                            .coverUrl(track.artworkUrl500())
-                            .artist(artist)
-                            .type(Album.AlbumType.ALBUM)
-                            .build();
-                    return albumRepository.save(newAlbum);
-                });
+        // Đổi orElseGet thành lấy phần tử đầu nếu có
+        List<Album> existing = albumRepository
+                .findByTitleIgnoreCaseAndArtistId(track.collectionName(), artist.getId());
+
+        if (!existing.isEmpty()) return existing.get(0);
+
+        Album newAlbum = Album.builder()
+                .title(track.collectionName())
+                .coverUrl(track.artworkUrl500())
+                .artist(artist)
+                .type(Album.AlbumType.ALBUM)
+                .build();
+        return albumRepository.save(newAlbum);
     }
 }

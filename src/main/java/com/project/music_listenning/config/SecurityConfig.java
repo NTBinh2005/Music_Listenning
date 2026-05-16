@@ -59,6 +59,17 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/albums/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/search/**").permitAll()
 
+                        // Like — yêu cầu đăng nhập
+                        .requestMatchers(HttpMethod.POST,   "/api/songs/*/like").authenticated()
+                        .requestMatchers(HttpMethod.GET,    "/api/songs/liked").authenticated()
+                        .requestMatchers(HttpMethod.GET,    "/api/songs/*/liked").authenticated()
+                        // follow/unfollow nghệ sĩ — yêu cầu đăng nhập
+                        .requestMatchers(HttpMethod.POST, "/api/artists/{id}/follow").authenticated()
+                        .requestMatchers(HttpMethod.GET,  "/api/artists/{id}/follow-status").authenticated()
+                        .requestMatchers(HttpMethod.GET,  "/api/following").authenticated()
+                        // Thêm vào authorizeHttpRequests, trước anyRequest().authenticated()
+                        .requestMatchers("/api/users/me").authenticated()
+
                         // Chỉ ADMIN mới tạo/xóa/sửa nội dung
                         .requestMatchers(HttpMethod.POST, "/api/songs/**", "/api/albums/**", "/api/artists/**")
                         .hasRole("ADMIN")
@@ -71,12 +82,9 @@ public class SecurityConfig {
                         .requestMatchers("/api/upload/**").authenticated()
                         // Playlist — yêu cầu đăng nhập
                         .requestMatchers("/api/playlists/**").authenticated()
-                        // Like — yêu cầu đăng nhập
-                        .requestMatchers(HttpMethod.POST,   "/api/songs/*/like").authenticated()
-                        .requestMatchers(HttpMethod.GET,    "/api/songs/liked").authenticated()
-                        .requestMatchers(HttpMethod.GET,    "/api/songs/*/liked").authenticated()
                         // History — yêu cầu đăng nhập
                         .requestMatchers("/api/history/**").authenticated()
+
 
                         // Còn lại yêu cầu đăng nhập
                         .anyRequest().authenticated()

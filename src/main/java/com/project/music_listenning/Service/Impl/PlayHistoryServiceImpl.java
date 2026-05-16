@@ -101,7 +101,14 @@ public class PlayHistoryServiceImpl implements PlayHistoryService {
     }
 
     private User getCurrentUser() {
-        return (User) SecurityContextHolder.getContext()
+        Object principal = SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
+
+        if (principal instanceof User user) {
+            return user;
+        }
+
+        // Nếu principal là String (anonymous) → throw
+        throw new IllegalStateException("User chưa đăng nhập");
     }
 }
