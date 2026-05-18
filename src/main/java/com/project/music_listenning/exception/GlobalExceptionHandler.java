@@ -65,4 +65,15 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Map.of("message", "Lỗi server, thử lại sau"));
     }
+
+    @ExceptionHandler(PremiumRequiredException.class)
+    public ResponseEntity<Map<String, String>> handlePremiumRequired(
+            PremiumRequiredException e) {
+        return ResponseEntity
+                .status(HttpStatus.PAYMENT_REQUIRED)   // 402
+                .body(Map.of(
+                        "message", e.getMessage(),
+                        "code",    "PREMIUM_REQUIRED"      // FE dùng code này để hiện modal
+                ));
+    }
 }

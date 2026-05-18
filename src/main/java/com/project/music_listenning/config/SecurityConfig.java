@@ -69,6 +69,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET,  "/api/following").authenticated()
                         // Thêm vào authorizeHttpRequests, trước anyRequest().authenticated()
                         .requestMatchers("/api/users/me").authenticated()
+                        // Subscription — yêu cầu đăng nhập
+                        .requestMatchers("/api/subscriptions/me").authenticated()
 
                         // Chỉ ADMIN mới tạo/xóa/sửa nội dung
                         .requestMatchers(HttpMethod.POST, "/api/songs/**", "/api/albums/**", "/api/artists/**")

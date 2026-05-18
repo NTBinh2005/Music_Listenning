@@ -1,5 +1,7 @@
 package com.project.music_listenning.Service.Impl;
 
+import com.project.music_listenning.Service.SubscriptionService;
+import com.project.music_listenning.exception.PremiumRequiredException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class SongServiceImpl implements SongService {
     private final SongRepository songRepository;
+    private final SubscriptionService subscriptionService;
 
     /** Top bài phổ biến (trang chủ) */
     @Override
@@ -40,9 +43,9 @@ public class SongServiceImpl implements SongService {
     }
 
     /**
-     * Lấy audio URL để stream — điểm quan trọng về bảo mật:
-     * audioUrl KHÔNG nằm trong SongResponse thông thường, chỉ trả ở đây
-     * sau khi kiểm tra quyền Premium.
+     * Lấy audio URL để stream.
+     * Nếu bài là premium → kiểm tra user có subscription không.
+     * Nếu không có premium → throw exception → FE hiện modal upgrade.
      */
     @Override
     public SongStreamResponse getStreamUrl(UUID songId) {
@@ -50,11 +53,14 @@ public class SongServiceImpl implements SongService {
                 .filter(Song::isActive)
                 .orElseThrow(() -> new RuntimeException("Bài hát không tồn tại"));
 
-        // Kiểm tra premium
         if (song.isPremium()) {
-            User currentUser = getCurrentUser();
-            // TODO: kiểm tra subscription của user — sẽ implement ở Phase 3
-            // if (!subscriptionService.isPremium(currentUser.getId())) throw ...
+            boolean hasPremium = subscriptionService.currentUserIsPremium();
+            if (!hasPremium) {
+                // Throw với message đặc biệt để FE nhận biết
+                throw new PremiumRequiredException(
+                        "Bài hát này yêu cầu tài khoản Premium"
+                );
+            }
         }
 
         return SongStreamResponse.from(song);
