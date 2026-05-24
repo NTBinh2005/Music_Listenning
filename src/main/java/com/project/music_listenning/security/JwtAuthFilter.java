@@ -65,10 +65,23 @@ public class JwtAuthFilter extends OncePerRequestFilter {
      * Lấy token từ header: "Authorization: Bearer <token>"
      */
     private String extractToken(HttpServletRequest request) {
+//        String header = request.getHeader("Authorization");
+//        if (StringUtils.hasText(header) && header.startsWith("Bearer ")) {
+//            return header.substring(7);
+//        }
+//        return null;
+        // Ưu tiên header Authorization
         String header = request.getHeader("Authorization");
         if (StringUtils.hasText(header) && header.startsWith("Bearer ")) {
             return header.substring(7);
         }
+
+        // Fallback: query param ?token= (dùng cho stream audio)
+        String queryToken = request.getParameter("token");
+        if (StringUtils.hasText(queryToken)) {
+            return queryToken;
+        }
+
         return null;
     }
 }

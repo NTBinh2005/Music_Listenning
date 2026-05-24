@@ -71,6 +71,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/me").authenticated()
                         // Subscription — yêu cầu đăng nhập
                         .requestMatchers("/api/subscriptions/me").authenticated()
+                        // streaming — yêu cầu đăng nhập
+                        .requestMatchers("/api/stream/**").authenticated()
 
                         // Chỉ ADMIN mới tạo/xóa/sửa nội dung
                         .requestMatchers(HttpMethod.POST, "/api/songs/**", "/api/albums/**", "/api/artists/**")
@@ -86,6 +88,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/playlists/**").authenticated()
                         // History — yêu cầu đăng nhập
                         .requestMatchers("/api/history/**").authenticated()
+
 
 
                         // Còn lại yêu cầu đăng nhập

@@ -1,6 +1,7 @@
 package com.project.music_listenning.Repository;
 
 import com.project.music_listenning.Entity.Artist;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +23,5 @@ public interface ArtistRepository extends JpaRepository<Artist, UUID> {
     """)
     List<Artist> searchByName(@Param("keyword") String keyword, Pageable pageable);
 
+    Page<Artist> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }

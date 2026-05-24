@@ -29,6 +29,10 @@ spring:
       max-file-size: 50MB       # Giới hạn file audio
       max-request-size: 55MB
 
+  mvc:
+    async:
+      request-timeout: -1
+
 app:
   jwt:
     secret: ${JWT_SECRET:K7gNU3sdo+OL0wNhqoVWhr3g6s1xYv72ol/pe/Unols=}           # Tối thiểu 256-bit, đặt trong .env
@@ -52,3 +56,5 @@ cloudinary:
   cloud-name: ${CLOUDINARY_CLOUD_NAME:duh0ib5rl}
   api-key: ${CLOUDINARY_API_KEY:999641314264513}
   api-secret: ${CLOUDINARY_API_SECRET:Qwy7YsROEDKVxZLzBNY1-y1vQaM}
+
+kind: Application

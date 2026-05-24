@@ -28,4 +28,6 @@ public interface FollowedArtistRepository extends JpaRepository<FollowedArtist, 
 
     // Kiểm tra user có follow artist không
     boolean existsByUserIdAndArtistId(UUID userId, UUID artistId);
+
+    long countByUserId(UUID userId);
 }

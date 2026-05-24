@@ -17,4 +17,6 @@ public interface PlayListRepository extends JpaRepository<PlayList, UUID> {
 
     // Kiểm tra playlist có thuộc về user không (dùng trước khi sửa/xóa)
     boolean existsByIdAndUserId(UUID id, UUID userId);
+
+    long countByUserId(UUID userId);
 }

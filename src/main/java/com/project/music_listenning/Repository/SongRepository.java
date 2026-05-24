@@ -92,4 +92,7 @@ public interface SongRepository extends JpaRepository<Song, UUID> {
     """)
     List<Song> findSuggestionsForSongs(@Param("keyword") String keyword, Pageable pageable);
 
+
+    Page<Song> findByTitleContainingIgnoreCase(String title, Pageable pageable);
+
 }
